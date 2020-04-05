@@ -210,7 +210,7 @@ public function getStatusDate ($startDate, $endDate, $type=0, $status=1){
 
 /**
 *
-** Retorna por novas mensagens recebidas.
+** Busca por novas mensagens recebidas.
 *
 ** Referências https://smsmarket.docs.apiary.io/reference/servicos-da-api/consulta-por-novas-mensagens-recebidas
 *
