@@ -18,7 +18,8 @@ class SMSMarket
 	protected $hash; //hash de autenticação
 	protected $timezone;
 	
-function __construct ($usuario, $senha, $timezone=null){
+function __construct($usuario, $senha, $timezone=null)
+{
 	
 	if ($timezone == null)
 	{
@@ -41,27 +42,31 @@ function __construct ($usuario, $senha, $timezone=null){
 ** @param $country_code - Codigo DDI do país.
 ** @param $schedule - Horário programado para a mensagem ser enviada no formato ISO 8691.
 *
-** @return Um objeto json com informações do envio.
+** @return Retorna um objeto json com informações do envio.
 *
-*/
+**/
 
-public function sendSMS ($numero, $mensagem, $type=0, $campaing_id=null, $country_code=null, $schedule=null){
+public function sendSMS($numero, $mensagem, $type=0, $campaing_id=null, $country_code=null, $schedule=null)
+{
 	
 	$query ['number']=$numero;
 	$query ['content']=$mensagem;
 	$query ['type']=$type;
 	
-	if ($campaing_id != null){
+	if ($campaing_id != null)
+	{
 		$query ['campaing_id']=$campaing_id;
-		}
+	}
 		
-	if ($country_code != null){
-	$query ['country_code']=$country_code;
-		}
+	if ($country_code != null)
+	{
+		$query ['country_code']=$country_code;
+	}
 		
-	if ($schedule != null){
+	if ($schedule != null)
+	{
 		$query ['schedule']=$schedule;
-		}
+	}
 		
 	$query ['timezone']=$this->timezone;
 		
@@ -82,15 +87,17 @@ public function sendSMS ($numero, $mensagem, $type=0, $campaing_id=null, $countr
 ** @param $type - Tipo de mensagem que será enviada.
 ** @param $schedule - Horário programado para a mensagem ser enviada no formato ISO 8691.
 *
-** @return Um objeto json com informações do envio.
+** @return Retorna um objeto json com informações do envio.
 *
-*/
+**/
 
-public function sendSMSMultiple (array $messages, $type=0, $schedule=null){
+public function sendSMSMultiple(array $messages, $type=0, $schedule=null)
+{
 
 	$query ['defaultValues']['type']=$type;
 
-	if ($schedule != null){
+	if ($schedule != null)
+	{
 		$query ['defaultValues']['schedule']=$schedule;
 	}
 
@@ -111,11 +118,12 @@ public function sendSMSMultiple (array $messages, $type=0, $schedule=null){
 ** Saldo disponível na sua conta para envio de SMS.
 ** Referências https://smsmarket.docs.apiary.io/reference/servicos-da-api/consulta-de-saldo
 *
-** @return Um objeto json com informações do saldo.
+** @return Retorna um objeto json com informações do saldo.
 *
-*/
+**/
 
-public function getBalance (){
+public function getBalance()
+{
 	
 	$request=$this->request ('balance');
 	
@@ -130,15 +138,17 @@ public function getBalance (){
 *
 ** @param $id - ID do SMS retornado pela api após o envio, também pode ser um array com os IDs.
 *
-** @return um objeto json com o status do(s) envio(s).
+** @return Retorna um objeto json com o status do(s) envio(s).
 *
-*/
+**/
 
-public function getStatusID ($id){
+public function getStatusID($id)
+{
 	
-	if (is_array ($id)){
+	if (is_array ($id))
+	{
 		$id=implode (',', $id);
-		}
+	}
 		
 	$query ['id']=$id;
 	
@@ -157,15 +167,17 @@ public function getStatusID ($id){
 *
 ** @param $id - campaing_id do envio.
 *
-** @return um objeto json com o status do(s) envio(s).
+** @return Retorna um objeto json com o status do(s) envio(s).
 *
-*/
+**/
 
-public function getStatusCampaingID ($id){
+public function getStatusCampaingID($id)
+{
 	
-	if (is_array ($id)){
+	if (is_array ($id))
+	{
 		$id=implode (',', $id);
-		}
+	}
 	
 	$query ['campaing_id']=$id;
 	$query ['timezone']=$this->timezone;
@@ -189,10 +201,11 @@ public function getStatusCampaingID ($id){
 ** @param $type - Filtra por tipo.
 ** @param $status - Filtra por status 1 (enviado),0 (não enviado).
 *
-** @return um objeto json com o status do(s) envio(s).
+** @return Retorna um objeto json com o status do(s) envio(s).
 *
-*/
-public function getStatusDate ($startDate, $endDate, $type=0, $status=1){
+**/
+public function getStatusDate($startDate, $endDate, $type=0, $status=1)
+{
 
 	$query ['type']=$type;
 	$query ['status']=$status;
@@ -216,10 +229,11 @@ public function getStatusDate ($startDate, $endDate, $type=0, $status=1){
 *
 ** @param $type - Tipo de mensagem.
 *
-** @return um objeto json com novas mensagens
+** @return Retorna um objeto json com novas mensagens
 *
-*/
-public function getNewMessages ($type=0){
+**/
+public function getNewMessages($type=0)
+{
 
 	$query ['type']=$type;
 	$query ['timezone']=$this->timezone;
@@ -243,10 +257,11 @@ public function getNewMessages ($type=0){
 ** @param $type - Filtra por tipo.
 ** @param $campaing_id - Identificador da mensagems.
 *
-** @return um objeto json com o status do(s) envio(s).
+** @return Retorna um objeto json com o status do(s) envio(s).
 *
-*/
-public function getNewMessagesDate ($startDate, $endDate, $type=0, $campaing_id=null){
+**/
+public function getNewMessagesDate($startDate, $endDate, $type=0, $campaing_id=null)
+{
 
 	if ($campaing_id != null)
 	{
@@ -266,13 +281,37 @@ public function getNewMessagesDate ($startDate, $endDate, $type=0, $campaing_id=
 	
 	}
 
-public function setTimezone ($timezone){
+/**
+*
+** Recupera e codificar requests da API
+*
+** Referências https://smsmarket.docs.apiary.io/reference/callbacks-da-api
+*
+** @return um objeto json
+*
+**/
+
+public function getData()
+{
+
+	if (isset ($_GET))
+	{
+		return json_decode (json_encode ($_GET), true);
+	}
+
+		return false;
+
+}
+
+public function setTimezone($timezone)
+{
 
 	$this->timezone=$timezone;
 
 }
 	
-private function request ($path, $query=null, $requestType='GET'){
+private function request($path, $query=null, $requestType='GET')
+{
 
 	if ($requestType == 'GET')
 	{
@@ -289,6 +328,7 @@ private function request ($path, $query=null, $requestType='GET'){
 		$url=self::URL.$path;
 
 		$header[]='Authorization: Basic '.$this->hash;
+
 	}
 
 	$connect=curl_init ();
@@ -311,6 +351,6 @@ private function request ($path, $query=null, $requestType='GET'){
 
 		return json_decode ($request, true);
 
-	}
+}
 	
-	}
+}
