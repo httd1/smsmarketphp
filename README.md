@@ -19,12 +19,12 @@ print_r ($envio);
 // envia sms para varios números
 $loteSMS=$sms->sendSMSMultiple ([
 [
-'number' => 67999999999',
-'content' => Texto da mensagem.'
+'number' => '67999999999',
+'content' => 'Texto da mensagem.'
 ],
 [
-'number' => 67999999999',
-'content' => Texto da mensagem.'
+'number' => '67999999999',
+'content' => 'Texto da mensagem.'
 ]
 ]);
 
